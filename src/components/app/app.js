@@ -6,7 +6,6 @@ import SearchPanel from '../search-panel/search-panel';
 
 import './app.css';
 
-
 function App() {
 
     const data = [
@@ -17,6 +16,7 @@ function App() {
 
     return (
         <div className='app'>
+
             <AppInfo />
 
             <div className="search-panel">
