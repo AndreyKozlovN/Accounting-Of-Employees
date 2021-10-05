@@ -1,5 +1,7 @@
 import { Component } from 'react';
 
+import nextId from "react-id-generator";
+
 import AppFilter from '../app-filter/app-filter';
 import AppInfo from '../app-info/app-info';
 import EmployersAddForm from '../employers-add-form/employers-add-form';
@@ -22,14 +24,27 @@ class App extends Component {
 
     deleteItem = (id) => {
         this.setState(({data}) => {
-            // const index = data.findIndex(element => element.id === id);
-            // const before = data.slice(0, index);
-            // const after = data.slice(index + 1);
-            // const newArray = [...before, ...after];
             return {
                 data: data.filter(item => item.id !== id)
             }
         })
+    }
+
+    addItem = (name, salary) => {
+        if(name.length <= 0 || salary.length <= 0) return;
+        const htmlId = nextId();
+        const newItem = {
+            name, 
+            salary,
+            increase: false,
+            id: htmlId
+        }
+        this.setState(({data}) => {
+            const newArr = [...data, newItem];
+            return {
+                data: newArr
+            }
+        });
     }
 
     render() {
@@ -49,7 +64,8 @@ class App extends Component {
                     data={data} 
                     onDelete={this.deleteItem}/>
     
-                <EmployersAddForm />
+                <EmployersAddForm 
+                    onAdd={this.addItem}/>
             </div>
         );
     }

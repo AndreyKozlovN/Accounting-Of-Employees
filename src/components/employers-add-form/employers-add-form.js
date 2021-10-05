@@ -1,5 +1,7 @@
 import { Component } from 'react';
+
 import './employers-add-form.css';
+
 
 class EmployersAddForm extends Component {
     constructor(props) {
@@ -15,6 +17,15 @@ class EmployersAddForm extends Component {
             [e.target.name] : e.target.value
         })
     }
+
+    onSubmit = (event) => {
+        event.preventDefault();
+        this.props.onAdd(this.state.name, this.state.salary);
+        this.setState({
+            name: '',
+            salary: ''
+        })
+    }
     
     render() {
         const {name, salary} = this.state;
@@ -23,7 +34,8 @@ class EmployersAddForm extends Component {
             <div className="app-add-form">
                 <h3>Добавить нового сотрудника</h3>
                 <form
-                    className="add-form d-flex">
+                    className="add-form d-flex"
+                    onSubmit = {this.onSubmit}>
                     <input type="text"
                         className="form-control new-post-label"
                         placeholder="Как его зовут?"
@@ -38,7 +50,8 @@ class EmployersAddForm extends Component {
                         value={salary} />
     
                     <button type="submit"
-                            className="btn btn-outline-danger">Добавить</button>
+                            className="btn btn-outline-danger">
+                                Добавить</button>
                 </form>
             </div>
         )
