@@ -15,9 +15,9 @@ class App extends Component {
         super(props);
         this.state = {
             data : [
-                {name: "Alexey C.", salary: 800, increase: false, id: 1},
-                {name: "Ivan B.", salary: 1800, increase: true, id: 2},
-                {name: "Konstantin G.", salary: 2000, increase: false, id: 3},
+                {name: "Alexey C.", salary: 800, increase: false, rise: true, id: 1},
+                {name: "Ivan B.", salary: 1800, increase: true, rise: false, id: 2},
+                {name: "Konstantin G.", salary: 2000, increase: false, rise: false, id: 3},
             ]
         }
     } 
@@ -37,6 +37,7 @@ class App extends Component {
             name, 
             salary,
             increase: false,
+            rise: false,
             id: htmlId
         }
         this.setState(({data}) => {
@@ -47,13 +48,45 @@ class App extends Component {
         });
     }
 
+    // onToggleIncrease = (id) => {
+    //     this.setState(({data}) => {
+    //         const index = data.findIndex(elem => elem.id === id);
+    //         const oldItem = data[index];
+    //         const newItem = {...oldItem, increase: !oldItem.increase};
+    //         const newArr = [...data.slice(0, index), newItem, ...data.slice(index + 1)];
+
+    //         return {
+    //             data: newArr
+    //         }
+    //     })
+    // }
+
+    onToggleIncrease = (id) => {
+        this.setState(({data}) => ({
+            data: data.map(item => {
+                if (item.id === id) return {...item, increase: !item.increase}
+                return item;
+            })
+        }))
+    }
+
+    onToggleRise = (id) => {
+        this.setState(({data}) => ({
+            data: data.map(item => {
+                if (item.id === id) return {...item, rise: !item.rise}
+                return item;
+            })
+        }))
+    }
+
     render() {
         const {data} = this.state;
 
         return (
             <div className='app'>
     
-                <AppInfo />
+                <AppInfo numberEmployees={data.length}
+                         increased={this.state.data.filter(e => e.increase).length}/>
     
                 <div className="search-panel">
                     <SearchPanel/>
@@ -62,7 +95,9 @@ class App extends Component {
     
                 <EmployersList 
                     data={data} 
-                    onDelete={this.deleteItem}/>
+                    onDelete={this.deleteItem}
+                    onToggleIncrease={this.onToggleIncrease}
+                    onToggleRise={this.onToggleRise}/>
     
                 <EmployersAddForm 
                     onAdd={this.addItem}/>
