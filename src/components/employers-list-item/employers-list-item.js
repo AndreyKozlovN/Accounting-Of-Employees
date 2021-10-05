@@ -26,8 +26,7 @@ import './employers-list-item.css';
 
     render() {
 
-        const {name, salary} = this.props;
-
+        const {name, salary, onDelete} = this.props;
         const {increase, like} = this.state;
 
         let classIncrease = increase ? 'increase' : false;
@@ -45,7 +44,8 @@ import './employers-list-item.css';
                     </button>
     
                     <button type="button"
-                            className="btn-trash btn-sm ">
+                            className="btn-trash btn-sm "
+                            onClick={onDelete}>
                         <i className="fas fa-trash"></i>
                     </button>
                     <i className="fas fa-star"></i>
